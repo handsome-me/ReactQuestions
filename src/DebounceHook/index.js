@@ -8,11 +8,9 @@ export default function useDebounce(input) {
   const [apiFired, setApifired] = useState(false);
 
   //const isTyping = useRef(false);
-
+  console.log("custom");
   useEffect(() => {
-    //console.log("useEffect of cusotmHooks, intercalid", isTyping);
-
-    clearInterval(intervalId);
+    console.log("useEffect of cusotmHooks, intercalid", isTyping);
 
     if (input) {
       const id = setTimeout(() => {
@@ -27,6 +25,11 @@ export default function useDebounce(input) {
     if (apiFired) {
       setApifired(false);
     }
+
+    return () => {
+      console.log("cleaup fun");
+      clearInterval(intervalId);
+    };
   }, [input]);
 
   return [apiFired, setIsTyping];
