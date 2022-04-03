@@ -41,11 +41,17 @@ const FacnyAutoComplete = function (props) {
         onChange={(event) => {
           const value = event.target.value;
           setInputVal(value);
+          if (!value || !value.includes("@")) {
+            setsuggestList([]);
+          }
+
           //checking of value is not empty string -> @ should not be the first char
           if (
-            (value && value[value.length - 1] === "@") ||
-            (value.includes("@") && value[0] != "@")
+            value[value.length - 1] == "@" ||
+            (value.includes("@") && value.length > 1)
           ) {
+            if (value[0] == "@") return;
+
             const allUPI = filterListOfUPI(value);
             console.log("filtered upi list ", allUPI);
             setsuggestList(allUPI);
