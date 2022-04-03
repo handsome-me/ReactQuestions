@@ -1,0 +1,23 @@
+.form-container {
+  position: relative;
+  width: 40%;
+}
+
+.form-suggestions-container {
+  display: flex;
+  position: absolute;
+  top: 2;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid grey;
+  width: 100%;
+  overflow-y: scroll;
+  height: 100px;
+}
+
+.form-suggestions-container > div {
+  text-align: center;
+  margin: 5px;
+  background-color: honeydew;
+  border: 1px solid goldenrod;
+}
