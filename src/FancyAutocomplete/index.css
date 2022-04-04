@@ -21,3 +21,21 @@
   background-color: honeydew;
   border: 1px solid goldenrod;
 }
+
+.input-container {
+  display: inline-flex;
+  position: relative;
+  border: 1px solid gray;
+  width: 100%;
+}
+
+.input-container input {
+  border: none;
+}
+.input-container input:focus {
+  outline: none;
+}
+.hint {
+  display: inline-flex;
+  position: absolute;
+}
