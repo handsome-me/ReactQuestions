@@ -11,38 +11,43 @@ const listOfUPI = [
   "alibank",
   "upi",
   "okaxis",
-  "indusbank",
   "unionbank",
   "bankofmaharashtra",
-  "paytm",
-  "indusbank",
-  "rbi"
+  "indusbank"
 ];
 
 const FacnyAutoComplete = function (props) {
   const [inputVal, setInputVal] = useState("");
   const [suggestList, setsuggestList] = useState([]);
-  const [width, setWidth] = useState(0);
-  const ref = useRef();
+
   //hint will be empty string in first render
   const [hint, setHint] = useState("");
-
-  const filterListOfUPI = (value) => {
-    //value - finding value
-    if (value[value.length - 1] === "@") {
-      return listOfUPI;
-    }
-
-    const splited = value.split("@");
-    console.log("splited", splited);
-    value = splited[1];
-    const filteredUPI = listOfUPI.filter((val) => val.includes(value));
-    return filteredUPI;
-  };
 
   const onType = (event) => {
     console.log("onChagne", event);
     const value = event.target.value;
+    setInputVal(value);
+    if (!value.includes("@")) return;
+
+    const [userName, bankUPI] = value.split("@");
+    console.log("userName", userName);
+    console.log("bankUPI", bankUPI);
+    let filteredUPI;
+    //bankUpi is defined , means "@" entered
+    if (bankUPI || bankUPI === "") {
+      const pattern = new RegExp(bankUPI);
+      filteredUPI = listOfUPI.filter((upi) => {
+        if (!bankUPI) return upi;
+        return pattern.test(upi);
+      });
+
+      console.log("filteredUPI", filteredUPI);
+      //set the hint
+      const hint = filteredUPI[0].slice(bankUPI.length);
+      console.log("value", hint);
+      setsuggestList(filteredUPI);
+      setHint(value + hint);
+    }
   };
 
   return (
@@ -55,15 +60,18 @@ const FacnyAutoComplete = function (props) {
           value={inputVal}
           onChange={(event) => onType(event)}
           onKeyDown={(event) => {
-            const { keycode = null } = event;
-            if (keycode) {
+            const { keyCode = null } = event;
+            console.log("keycode", event.keyCode);
+            if (keyCode == 39) {
               setInputVal(hint);
+              setsuggestList([]);
+              setHint("");
             }
           }}
         ></input>
       </div>
 
-      {suggestList.length && (
+      {suggestList.length > 0 && (
         <div className="form-suggestions-container">
           {suggestList.length &&
             suggestList.map((item) => {
